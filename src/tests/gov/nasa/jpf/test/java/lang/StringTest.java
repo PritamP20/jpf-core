@@ -360,4 +360,65 @@ public class StringTest extends TestJPF {
 			assertEquals("  ", " ".repeat(2));
 		}
 	}
+
+	@Test
+	public void testSplit() {
+		if (verifyNoPropertyViolation()) {
+			String str = "one,two,three";
+			String[] parts = str.split(",");
+			
+			assertTrue(parts.length == 3);
+			assertTrue(parts[0].equals("one"));
+			assertTrue(parts[1].equals("two"));
+			assertTrue(parts[2].equals("three"));
+		}
+	}
+
+	@Test
+	public void testSplitWithLimit() {
+		if (verifyNoPropertyViolation()) {
+			String str = "a:b:c:d";
+			String[] parts = str.split(":", 2);
+			
+			assertTrue(parts.length == 2);
+			assertTrue(parts[0].equals("a"));
+			assertTrue(parts[1].equals("b:c:d"));
+		}
+	}
+
+	@Test
+	public void testSplitTrailingEmpty() {
+		if (verifyNoPropertyViolation()) {
+			String str = "a:b:c::";
+			String[] parts = str.split(":");
+			
+			// Default behavior discards trailing empty strings
+			assertTrue(parts.length == 3);
+			assertTrue(parts[2].equals("c"));
+		}
+	}
+
+	@Test
+	public void testSplitWithRegex() {
+		if (verifyNoPropertyViolation()) {
+			String str = "one two  three";
+			String[] parts = str.split("\\s+");
+			
+			assertTrue(parts.length == 3);
+			assertTrue(parts[0].equals("one"));
+			assertTrue(parts[1].equals("two"));
+			assertTrue(parts[2].equals("three"));
+		}
+	}
+
+	@Test
+	public void testSplitEmptyString() {
+		if (verifyNoPropertyViolation()) {
+			String str = "";
+			String[] parts = str.split(",");
+			
+			assertTrue(parts.length == 1);
+			assertTrue(parts[0].equals(""));
+		}
+	}
 }
